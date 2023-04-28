@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.mis.pos629.mapper.CategoryMapper">
+    <!--  根据id查询类别  -->
+    <select id="getCategoryById" resultType="Category">
+        SELECT category_id,category_name from pos_category where category_id=#{categoryId}
+    </select>
+    <!--  查询所有类别  -->
+    <select id="listAllCategory" resultType="Category">
+        SELECT category_id,category_name from pos_category
+    </select>
+    <!--  添加类别  -->
+    <insert id="insertCategory" parameterType="Category" useGeneratedKeys="true" keyProperty="categoryId">
+        insert into pos_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">category_id,</if>
+            <if test="categoryName != null">category_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="categoryName != null">#{categoryName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <!--  修改类别  -->
+    <update id="updateCategory" parameterType="Category">
+        update pos_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="categoryName != null">category_name = #{categoryName},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where category_id = #{categoryId}
+    </update>
+    <!--  删除类别  -->
+    <delete id="deleteCategoryById" parameterType="Long">
+        delete from pos_category where category_id = #{categoryId}
+    </delete>
+    <!-- 查询产品列表   -->
+    <select id="selectCategoryList" parameterType="Category" resultType="Category">
+        SELECT category_id,category_name FROM pos_category
+         <where>
+             <if test="categoryId != null  and  categoryId != ''"> category_id = #{categoryId}</if>
+             <if test="categoryName != null  and categoryName != ''"> and category_name = #{categoryName}</if>
+         </where>
+         ORDER BY category_id ASC
+     </select>
+
+ </mapper>
