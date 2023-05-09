@@ -20,13 +20,4 @@ module.exports = defineConfig({
   },
 })
 
-module.exports = {
-  chainWebpack: config => {
-    config
-      .plugin('html')
-      .tap(args => {
-        args[0].title= 'isdp后台管理系统'
-        return args
-      })
-  }
-}
+
